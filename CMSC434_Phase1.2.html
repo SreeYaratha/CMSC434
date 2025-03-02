@@ -2,90 +2,143 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=640, initial-scale=1.0">
     <title>App Prototype</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: lightgray; /* Background outside app */
         }
+
+        .app-container {
+            width: 640px;
+            height: 920px; /* Reduced height to fit better */
+            border: 1px solid black;
+            background-color: #ffc0cb;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
         .tab-content {
             display: none;
             padding: 20px;
-            height: calc(100vh - 60px);
-            background-color: #ffc0cb;
-            position: relative;
+            flex-grow: 1;
+            overflow-y: auto;
+            position: relative; /* Ensure "Down Here" text stays within tab */
         }
+
         .tab-content.active {
             display: block;
         }
-        .scrollable-text {
-            height: 80vh;
-            overflow-y: auto;
-        }
+
         .bold-header {
             font-size: 24px;
             font-weight: bold;
+            text-align: left; /* Moved header text to the top-left */
+            margin: 0;
+            padding-bottom: 10px;
         }
+
         .bottom-right {
             position: absolute;
             bottom: 20px;
             right: 20px;
         }
+
         .tab-bar {
             display: flex;
             justify-content: space-around;
             background-color: #000080;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
             padding: 10px 0;
         }
+
         .tab-bar button {
             background: none;
             border: none;
             color: yellow;
             font-size: 16px;
             padding: 10px;
+            cursor: pointer;
         }
+
         .tab-bar button.active {
             background-color: gray;
         }
+
+        /* Styling for unimplemented tabs */
+        .not-implemented {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            padding-top: 50px;
+        }
+
     </style>
 </head>
 <body>
-    <div class="tab-content active" id="tab1">
-        <p class="bold-header">-Text Screen-</p>
-        <div class="scrollable-text">
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
-            <p>Please note that this font size is too small to read easily on this device for many...</p>
+    <div class="app-container">
+        <div class="tab-content active" id="tab1">
+            <p class="bold-header">-Text Screen-</p>
+            <div class="scrollable-text">
+                <p>Please note that this font size is too small to read easily on this device for many...</p>
+                <p>Please note that this font size is too small to read easily on this device for many...</p>
+                <p>Please note that this font size is too small to read easily on this device for many...</p>
+                <p>Please note that this font size is too small to read easily on this device for many...</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab2">
+            <p class="bold-header">-Text in Lower Right-</p>
+            <p class="bottom-right">Down Here</p> <!-- Fixed positioning -->
+        </div>
+
+        <div class="tab-content" id="tab3">
+            <p class="bold-header">-Colors Example-</p>
+            <div style="background-color: black; color: yellow; font-weight: bold; padding: 10px; text-align: center;">Hello There</div>
+            <div style="background-color: yellow; color: purple; font-weight: bold; padding: 10px; text-align: center;">Hi Again</div>
+        </div>
+
+        <!-- Placeholder for unimplemented tabs -->
+        <div class="tab-content" id="tab4">
+            <p class="not-implemented">Profile Tab - Not Implemented Yet</p>
+        </div>
+
+        <div class="tab-content" id="tab5">
+            <p class="not-implemented">Choices Tab - Not Implemented Yet</p>
+        </div>
+
+        <div class="tab-content" id="tab6">
+            <p class="not-implemented">To-Do List Tab - Not Implemented Yet</p>
+        </div>
+
+        <div class="tab-bar">
+            <button class="active" onclick="showTab(1)">Text</button>
+            <button onclick="showTab(2)">LR</button>
+            <button onclick="showTab(3)">Colors</button>
+            <button onclick="showTab(4)">Profile</button>
+            <button onclick="showTab(5)">Choices</button>
+            <button onclick="showTab(6)">ToDo</button>
         </div>
     </div>
-    <div class="tab-content" id="tab2">
-        <p class="bold-header">-Text in Lower Right-</p>
-        <p class="bottom-right">Down Here</p>
-    </div>
-    <div class="tab-bar">
-        <button class="active" onclick="showTab(1)">Text</button>
-        <button onclick="showTab(2)">LR</button>
-        <button onclick="showTab(3)">Colors</button>
-        <button onclick="showTab(4)">Profile</button>
-        <button onclick="showTab(5)">Choices</button>
-        <button onclick="showTab(6)">ToDo</button>
-    </div>
+
     <script>
         function showTab(tabNumber) {
             document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
             document.querySelectorAll(".tab-bar button").forEach(button => button.classList.remove("active"));
-            document.getElementById("tab" + tabNumber).classList.add("active");
-            document.querySelectorAll(".tab-bar button")[tabNumber - 1].classList.add("active");
+            
+            const selectedTab = document.getElementById("tab" + tabNumber);
+            if (selectedTab) {
+                selectedTab.classList.add("active");
+                document.querySelectorAll(".tab-bar button")[tabNumber - 1].classList.add("active");
+            }
         }
     </script>
 </body>
