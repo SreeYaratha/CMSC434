@@ -4,110 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=640, initial-scale=1.0">
     <title>App Prototype</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: lightgray; /* Background outside app */
-        }
-
-        .app-container {
-            width: 640px;
-            height: 920px; /* Reduced height to fit better */
-            border: 1px solid black;
-            background-color: #ffc0cb;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .tab-content {
-            display: none;
-            padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-            position: relative; /* Ensure "Down Here" text stays within tab */
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .bold-header {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: left; /* Moved header text to the top-left */
-            margin: 0;
-            padding-bottom: 10px;
-        }
-
-        .bottom-right {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-        }
-
-        .tab-bar {
-            display: flex;
-            justify-content: space-around;
-            background-color: #000080;
-            padding: 10px 0;
-        }
-
-        .tab-bar button {
-            background: none;
-            border: none;
-            color: yellow;
-            font-size: 16px;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .tab-bar button.active {
-            background-color: gray;
-        }
-
-        /* Styling for unimplemented tabs */
-        .not-implemented {
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: red;
-            padding-top: 50px;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-container">
         <div class="tab-content active" id="tab1">
-            <p class="bold-header">-Text Screen-</p>
-            <div class="scrollable-text">
-                <p>Please note that this font size is too small to read easily on this device for many...</p>
-                <p>Please note that this font size is too small to read easily on this device for many...</p>
-                <p>Please note that this font size is too small to read easily on this device for many...</p>
-                <p>Please note that this font size is too small to read easily on this device for many...</p>
+            <p class="bold-header">Home</p>
+            <div class="profile-icon-top">👤</div>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="🔍 Search">
+            </div>
+            <div class="expiring-box">
+                <h3>Expiring Soon</h3>
+                <ul>
+                    <li>Eggs <span class="date">DD/MM/YY</span></li>
+                    <li>Cheese <span class="date">DD/MM/YY</span></li>
+                </ul>
+            </div>
+            <div class="infridge-box">
+                <h3>In Fridge</h3>
+                <ul>
+                    <li>Milk</li>
+                    <li>Eggs<span class="ownership"> (Jeff)</span></li>
+                    <li>Cheese</li>
+                    <li>Bacon<span class="ownership"> (Casey & Ben)</span></li>
+                    <li>Tangerines</li>
+                </ul>
             </div>
         </div>
 
+        <!-- Shopping List -->
         <div class="tab-content" id="tab2">
-            <p class="bold-header">-Text in Lower Right-</p>
-            <p class="bottom-right">Down Here</p> <!-- Fixed positioning -->
+            <p class="bold-header">Shopping List</p>
+
+            <div id="shopping-list">
+                <h4>Produce</h4>
+                <ul>
+                    <li><input type="checkbox" onchange="togglePurchased(this)"> Apples <span class="quantity">(2 lbs)</span></li>
+                    <li><input type="checkbox" onchange="togglePurchased(this)"> Carrots <span class="quantity">(1 lb)</span></li>
+                </ul>
+
+                <h4>Dairy</h4>
+                <ul>
+                    <li><input type="checkbox" onchange="togglePurchased(this)"> Milk <span class="quantity">(1 gal)</span></li>
+                    <li><input type="checkbox" onchange="togglePurchased(this)"> Cheese <span class="quantity">(6 oz)</span></li>
+                </ul>
+            </div>
+
+            <button class="add-item-btn" onclick="addItem()">+ Add Item</button>
+            <button class="add-item-btn" onclick="addSection()">+ Add Section</button>
         </div>
 
+        <!-- Recipes Page (replaces Colors tab) -->
         <div class="tab-content" id="tab3">
-            <p class="bold-header">-Colors Example-</p>
-            <div style="background-color: black; color: yellow; font-weight: bold; padding: 10px; text-align: center;">Hello There</div>
-            <div style="background-color: yellow; color: purple; font-weight: bold; padding: 10px; text-align: center;">Hi Again</div>
+            <p class="bold-header">Recipes</p>
+
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="🔍 Search recipes...">
+            </div>
+
+            <div style="margin-top: 10px;">
+                <button style="padding: 6px 12px; border-radius: 10px; background-color: white; border: 2px solid red; color: red;">Filter</button>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <div style="border: 2px solid #fff; background-color: #fff3f3; padding: 10px; border-radius: 12px; margin-bottom: 10px;">
+                    <strong>Spaghetti Bolognese</strong> 🍝<br>
+                    <small>Calories: 420 | Rating: ⭐⭐⭐⭐☆</small>
+                    <span style="float: right;">⭐</span>
+                </div>
+                <div style="border: 2px solid #fff; background-color: #fff3f3; padding: 10px; border-radius: 12px; margin-bottom: 10px;">
+                    <strong>Chicken Caesar Salad</strong> 🥗<br>
+                    <small>Calories: 350 | Rating: ⭐⭐⭐⭐☆</small>
+                    <span style="float: right;">⭐</span>
+                </div>
+            </div>
+
+            <h4>Your Recipes</h4>
+            <p>(User-submitted section — no content yet)</p>
         </div>
 
-        <!-- Placeholder for unimplemented tabs -->
-         <div class="tab-content" id="tab4">
+        <div class="tab-content" id="tab4">
             <p class="bold-header">-Profile Tab-</p>
             <p>Name: John Doe</p>
             <p>Email: johndoe@example.com</p>
@@ -125,7 +102,10 @@
         </div>
 
         <div class="tab-content" id="tab6">
-            <p class="bold-header">-To-Do List Tab-</p>
+            <p class="bold-header">To-Do List Tab</p>
+            <h1>
+                <span style="border-radius: 20px; position: absolute; right: 20px; padding-left: 10px; padding-right:10px; border: 2px solid; background-color: whitesmoke;">+</span>
+            </h1>
             <ul>
                 <li><input type="checkbox"> Task 1</li>
                 <li><input type="checkbox"> Task 2</li>
@@ -134,12 +114,12 @@
         </div>
 
         <div class="tab-bar">
-            <button class="active" onclick="showTab(1)">Text</button>
-            <button onclick="showTab(2)">LR</button>
-            <button onclick="showTab(3)">Colors</button>
-            <button onclick="showTab(4)">Profile</button>
+            <button class="active" onclick="showTab(1)">🏠<br>Home</button>
+            <button onclick="showTab(2)">🛒<br>Shop</button>
+            <button onclick="showTab(3)">🍽️<br>Recipes</button>
+            <button onclick="showTab(4)">👤<br>Profile</button>
             <button onclick="showTab(5)">Choices</button>
-            <button onclick="showTab(6)">ToDo</button>
+            <button onclick="showTab(6)">📝<br>To-Do</button>
         </div>
     </div>
 
@@ -147,12 +127,43 @@
         function showTab(tabNumber) {
             document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
             document.querySelectorAll(".tab-bar button").forEach(button => button.classList.remove("active"));
-            
+
             const selectedTab = document.getElementById("tab" + tabNumber);
             if (selectedTab) {
                 selectedTab.classList.add("active");
                 document.querySelectorAll(".tab-bar button")[tabNumber - 1].classList.add("active");
             }
+        }
+
+        function togglePurchased(checkbox) {
+            const li = checkbox.closest("li");
+            if (checkbox.checked) {
+                li.classList.add("purchased");
+            } else {
+                li.classList.remove("purchased");
+            }
+        }
+
+        function addItem() {
+            const lists = document.querySelectorAll('#shopping-list ul');
+            if (lists.length === 0) return;
+
+            const lastList = lists[lists.length - 1];
+            const newItem = document.createElement("li");
+            newItem.innerHTML = `<input type="checkbox" onchange="togglePurchased(this)"> New Item <span class="quantity">(qty)</span>`;
+            lastList.appendChild(newItem);
+        }
+
+        function addSection() {
+            const container = document.getElementById("shopping-list");
+
+            const newHeader = document.createElement("h4");
+            newHeader.textContent = "New Section";
+
+            const newList = document.createElement("ul");
+
+            container.appendChild(newHeader);
+            container.appendChild(newList);
         }
     </script>
 </body>
